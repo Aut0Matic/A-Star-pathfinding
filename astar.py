@@ -64,4 +64,44 @@ class square:
         self.color = PURPLE
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (800, 800))
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
+
+    def update_neighbors(self, grid):
+        pass
+
+    def __lt__(self, other):
+        return False
+
+def h(p1, p2):
+    x1, y1 = p1
+    x2, y2 = p2
+    return abs(x1-x2) + abs (y1 - y2)
+
+def make_grid(rows, width):
+    grid = []
+    gap = width // rows
+    for i in range(rows):
+        grid.append([])
+        for j in range(rows):
+            square = square(i, j, gap, rows)
+            grid[i].append(square)
+
+    return grid
+
+def draw_grid(win, rows, width):
+    gap = width // rows
+    for i in range(rows):
+        pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
+        for j in range(rows):
+            pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
+
+def draw(win, grid, rows, width):
+    win.fill(WHITE)
+
+    for row in grid:
+        for square in row:
+            square.draw(win)
+
+    draw_grid(win, rows, width)
+    pygame.display.update()
+
