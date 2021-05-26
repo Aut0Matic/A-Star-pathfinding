@@ -98,10 +98,8 @@ def algorithm(draw, grid, start, end):
     open_set = PriorityQueue()
     open_set.put((0, count, start))
     came_from = {}
-
     g_score = {spot: float("inf") for row in grid for spot in row}
     g_score[start] = 0
-
     f_score = {spot: float("inf") for row in grid for spot in row}
     f_score[start] = h(start.get_pos(), end.get_pos())
 
@@ -222,10 +220,15 @@ def main(win, width):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and not started:
                     for row in grid:
-                        for spot in row:
-                            spot.update_neighbors(grid)
+                        for square in row:
+                            square.update_neighbors(grid)
 
                     algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
+
+                if event.key == pygame.K_c:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS, width)
 
 
 
